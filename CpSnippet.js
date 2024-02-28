@@ -33,20 +33,20 @@ function print(x, s = "") {
 }
 
 function inforkc() {
-    let n = readIntArr();
-    let arr = readIntArr();
-    let i = 0, j = n - 1;
-    while (i < j && arr[i] == 0) {
-        i++;
-    }
-    while (j >= 0 && arr[j] == 0) {
-        j--;
-    }
-    let ans = 0;
-    for (let x = i; x <= j; x++) {
-        if (arr[x] == 0) ans++;
-    }
-    print(ans, "\n");
+    // let n = readIntArr();
+    // let arr = readIntArr();
+    // let i = 0, j = n - 1;
+    // while (i < j && arr[i] == 0) {
+    //     i++;
+    // }
+    // while (j >= 0 && arr[j] == 0) {
+    //     j--;
+    // }
+    // let ans = 0;
+    // for (let x = i; x <= j; x++) {
+    //     if (arr[x] == 0) ans++;
+    // }
+    // print(ans, "\n");
 }
 
 function main() {
