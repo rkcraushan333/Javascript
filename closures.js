@@ -74,22 +74,150 @@
 // }
 
 // Above optimization using closure
-function find() {
-    let a = [];
-    for (let i = 0; i < 1000000; i++) {
-        a[i] = i * i;
-    }
-    return function (index) {
-        console.log(a[index]);
+// function find() {
+//     let a = [];
+//     for (let i = 0; i < 1000000; i++) {
+//         a[i] = i * i;
+//     }
+//     return function (index) {
+//         console.log(a[index]);
+//     }
+// }
+// var closure = find();
+// console.time("6");
+// closure(6);
+// console.timeEnd("6")
+// console.time("12");
+// closure(12)
+// console.timeEnd("12");
+
+//Round 2 => Q2 setTimeOut and Block Scope
+
+// function a() {
+//     for (var x = 0; x < 5; x++) {
+//         function inner(x) {
+//             setTimeout(function log() {
+//                 console.log(x);
+//             }, x * 1000)
+//         }
+//         inner(x)
+//     }
+// }
+// a(); // As var is function scope so pass it inside a function
+
+
+// Q5. How would you use a closure to create a private counter
+
+// function counter() {
+//     var _counter = 0;
+//     function add(increment) {
+//         _counter += increment;
+//     }
+//     function retrieve() {
+//         return _counter;
+//     }
+//     return {
+//         add,
+//         retrieve
+//     }
+// }
+// const c = counter();
+// c.add(5);
+// c.add(15);
+// console.log(c.retrieve());
+
+// Q6. Module Pattern
+
+// var module = (function () {
+//     function privateMethod() {
+//         // do something
+//         console.log("private");
+//     }
+
+//     return {
+//         publicMethod: function () {
+//             // can call privateMethod
+//             console.log("public");
+//         }
+//     }
+// })();
+// module.publicMethod();
+// module.privateMethod(); // can not be accessed
+
+// Q7 . Make this Run only once
+// let view;
+// function likeTheVideo() {
+//     let called = 0;
+//     view = "inforkc";
+//     return function () {
+//         if (called) {
+//             console.log("Already Subscribed");
+//         }
+//         else {
+//             console.log("Subscribe to ", view);
+//             called++;
+//         }
+//     }
+// };
+// let isSubscribed = likeTheVideo();
+// isSubscribed()
+// isSubscribed()
+// isSubscribed()
+// isSubscribed()
+
+// More generic => Polyfill once (lodash)
+
+// function once(func, context) {
+//     let ran;
+//     return function () {
+//         if (func) {
+//             ran = func.apply(context || this, arguments);
+//             func = null;
+//         }
+//         return ran;
+//     };
+// }
+// const hello = once(() => console.log("Hello")); // will be called once
+// hello();
+// hello();
+// hello();
+// hello();
+
+// Q9. Polyfill of memoize
+
+function memoize(funct, context) {
+    const res = {};
+    return function (...args) {
+        const argCache = JSON.stringify(args);
+        if (!res[argCache]) {
+            res[argCache] = funct.call(context || this, ...args);
+        }
+        return res[argCache];
     }
 }
-var closure = find();
-console.time("6");
-closure(6);
-console.timeEnd("6")
-console.time("12");
-closure(12)
-console.timeEnd("12");
+
+var prod = (x, y) => {
+    for (let i = 0; i < 10000000; i++) {
+        // do something
+    }
+    return x * y;
+}
+const memoizedProd = memoize(prod);
+console.time("Prod time1");
+// prod(42824, 41241);
+memoizedProd(42824, 41241)
+console.timeEnd("Prod time1");
+console.time("Prod time2");
+// prod(42824, 41241);
+memoizedProd(42824, 41241)
+console.timeEnd("Prod time2");
 
 
-
+// Difference between closure and scope
+/*
+  When we create a function inside another function => then inner function is called
+  closure and these closure is generally returned so that you can use it at later time
+  while Scope in javascript defines what variables you have access to, mainly of two types
+  local and global scope.
+  But in the case of Closure => we have global,inner and outer scope 
+*/
